@@ -1,10 +1,5 @@
-import Button from "@/lib/kit/Button";
-import { IconPlus } from "@tabler/icons-react";
+import AddFlashCardButton from "@/app/(home)/AddButton";
 
 export default function Home() {
-  return (
-    <Button className="ms-auto mt-auto btn-square">
-      <IconPlus />
-    </Button>
-  );
+  return <AddFlashCardButton />;
 }
