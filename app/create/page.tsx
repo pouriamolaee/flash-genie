@@ -8,7 +8,7 @@ import Loading from "@/lib/kit/Loading";
 import { IconSearch } from "@tabler/icons-react";
 import TextArea from "@/lib/kit/TextArea";
 import FlashCard from "@/lib/models/FlashCard";
-import { save } from "@/lib/repository";
+import { create } from "@/lib/repository";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -37,13 +37,13 @@ export default function Home() {
 
     // Save FlashCard somewhere
     const flashCard = new FlashCard(question, answer, category);
-    save(flashCard);
+    create(flashCard);
     back();
     // Add success toast
   }
 
   return (
-    <div className="flex flex-col gap-4 h-full w-full">
+    <div className="flex flex-col gap-5 h-full w-full">
       <div className="join">
         <TextInput
           ref={questionRef}
