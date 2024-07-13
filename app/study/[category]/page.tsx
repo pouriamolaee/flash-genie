@@ -47,7 +47,16 @@ export default function StudyCategory() {
 
   return (
     <div className="flex flex-col h-full w-full">
-      <Collapse title={question} show={show} onClick={toggleShow}>
+      <Collapse
+        title={
+          <div className="flex gap-4">
+            <span>{`${cardIndex + 1} / ${flashCards.length}`}</span>
+            <span>{question}</span>
+          </div>
+        }
+        show={show}
+        onClick={toggleShow}
+      >
         {answer}
       </Collapse>
       <div className="join mt-auto w-full">

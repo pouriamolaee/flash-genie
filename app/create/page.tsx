@@ -36,8 +36,10 @@ export default function Home() {
     // Toast or some validation
 
     // Save FlashCard somewhere
-    const flashCard = new FlashCard(question, answer, category);
-    create(flashCard);
+    if (question && answer && category) {
+      const flashCard = new FlashCard(question, answer, category);
+      create(flashCard);
+    }
     back();
     // Add success toast
   }
