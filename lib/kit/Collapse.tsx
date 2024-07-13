@@ -16,7 +16,10 @@ export default function Collapse({
 }: CollapseProps) {
   return (
     <div
-      className={twMerge("collapse bg-base-200", show && "collapse-open")}
+      className={twMerge(
+        "collapse collapse-arrow bg-base-200",
+        show && "collapse-open",
+      )}
       onClick={onClick}
     >
       <div className="collapse-title text-xl font-medium">{title}</div>
