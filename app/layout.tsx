@@ -22,7 +22,7 @@ export default function RootLayout({
       <body
         className={twMerge(
           inter.className,
-          "flex flex-col h-lvh md:h-auto md:min-h-screen",
+          "flex flex-col h-dvh md:min-h-screen",
         )}
       >
         <RootNavBar />
