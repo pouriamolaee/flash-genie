@@ -2,7 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getAll, update } from "@/lib/repository";
-import FlashCard, { CardStatus } from "@/lib/models/FlashCard";
+import FlashCard, { Feedback } from "@/lib/models/FlashCard";
 import Button from "@/lib/kit/Button";
 import Collapse from "@/lib/kit/Collapse";
 
@@ -11,20 +11,8 @@ export default function StudyCategory() {
   const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
   const [show, setShow] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
-  const { question, answer } = flashCards[cardIndex] || {};
+  const flashCard = flashCards[cardIndex];
   const { back } = useRouter();
-
-  function updateStatus(status: CardStatus) {
-    const newFlashCard = new FlashCard(
-      question,
-      answer,
-      category as string,
-      status,
-    );
-    update(cardIndex, newFlashCard);
-    show && setShow(false);
-    move();
-  }
 
   function toggleShow() {
     setShow((prev) => !prev);
@@ -40,9 +28,25 @@ export default function StudyCategory() {
     }
   }
 
-  useEffect(() => {
+  function review(feedback: Feedback) {
+    flashCard.review(feedback);
+    update(cardIndex, flashCard);
+    show && setShow(false);
+    move();
+  }
+
+  function getDueFlashCards() {
     const data = getAll("data");
-    setFlashCards(data[category as string]);
+    const dueFlashCards: FlashCard[] = data[category as string]
+      .map((localStorageObj: any) =>
+        FlashCard.fromLocalStorageObj(localStorageObj),
+      )
+      .filter((flashCard: FlashCard) => flashCard.isDue());
+    setFlashCards(dueFlashCards);
+  }
+
+  useEffect(() => {
+    getDueFlashCards();
   }, [category]);
 
   return (
@@ -51,32 +55,32 @@ export default function StudyCategory() {
         title={
           <div className="flex gap-4">
             <span>{`${cardIndex + 1} / ${flashCards.length}`}</span>
-            <span>{question}</span>
+            <span>{flashCard?.question}</span>
           </div>
         }
         show={show}
         onClick={toggleShow}
       >
-        {answer}
+        {flashCard?.answer}
       </Collapse>
       <div className="join mt-auto w-full">
         <Button
-          className="join-item flex-1 btn-error"
-          onClick={() => updateStatus(CardStatus.ToLearn)}
+          className="join-item flex-1 btn-warning"
+          onClick={() => review(Feedback.Again)}
         >
-          {"No Idea"}
+          {"Again"}
         </Button>
         <Button
-          className="join-item flex-1 btn-warning"
-          onClick={() => updateStatus(CardStatus.Review)}
+          className="join-item flex-1 btn-info"
+          onClick={() => review(Feedback.Good)}
         >
-          {"Some Idea"}
+          {"Good"}
         </Button>
         <Button
           className="join-item flex-1 btn-success"
-          onClick={() => updateStatus(CardStatus.Learned)}
+          onClick={() => review(Feedback.Easy)}
         >
-          {"Learned"}
+          {"Easy"}
         </Button>
       </div>
     </div>

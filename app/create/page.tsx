@@ -38,7 +38,7 @@ export default function CreateFlashCardPage() {
 
     // Save FlashCard somewhere
     if (question && answer && category) {
-      const flashCard = new FlashCard(question, answer, category);
+      const flashCard = new FlashCard({ question, answer, category });
       create(flashCard);
     }
     back();
