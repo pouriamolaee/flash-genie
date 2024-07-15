@@ -35,17 +35,17 @@ export default function StudyCategory() {
     move();
   }
 
-  function getDueFlashCards() {
-    const data = getAll("data");
-    const dueFlashCards: FlashCard[] = data[category as string]
-      .map((localStorageObj: any) =>
-        FlashCard.fromLocalStorageObj(localStorageObj),
-      )
-      .filter((flashCard: FlashCard) => flashCard.isDue());
-    setFlashCards(dueFlashCards);
-  }
-
   useEffect(() => {
+    function getDueFlashCards() {
+      const data = getAll("data");
+      const dueFlashCards: FlashCard[] = data[category as string]
+        .map((localStorageObj: any) =>
+          FlashCard.fromLocalStorageObj(localStorageObj),
+        )
+        .filter((flashCard: FlashCard) => flashCard.isDue());
+      setFlashCards(dueFlashCards);
+    }
+
     getDueFlashCards();
   }, [category]);
 
