@@ -1,10 +1,12 @@
 import { forwardRef, InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
-const TextInput = forwardRef<
-  HTMLInputElement,
-  InputHTMLAttributes<HTMLInputElement>
->(function TextInput({ className, ...props }, ref) {
+export type InputProps = InputHTMLAttributes<HTMLInputElement>;
+
+const TextInput = forwardRef<HTMLInputElement, InputProps>(function TextInput(
+  { className, ...props },
+  ref,
+) {
   return (
     <input
       ref={ref}
