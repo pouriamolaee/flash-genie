@@ -1,22 +1,27 @@
 import FlashCard from "@/lib/models/FlashCard";
 
+const repoDataKey = "data";
+
 export function create(flashCard: FlashCard) {
-  const data = getAll("data");
+  const data = getAll();
   data[flashCard.category] = data[flashCard.category] || [];
   data[flashCard.category].push(flashCard);
-  save("data", data);
+  save(data);
 }
 
-export function update(index: number, flashCard: FlashCard) {
-  const data = getAll("data");
-  data[flashCard.category][index] = flashCard;
-  save("data", data);
+export function update(flashCard: FlashCard) {
+  const data = getAll();
+  const flashCardIndex = data[flashCard.category].findIndex(
+    ({ id }: FlashCard) => id === flashCard.id,
+  );
+  data[flashCard.category][flashCardIndex] = flashCard;
+  save(data);
 }
 
-export function getAll(key: string) {
-  return JSON.parse(localStorage.getItem(key) || "{}");
+export function getAll() {
+  return JSON.parse(localStorage.getItem(repoDataKey) || "{}");
 }
 
-function save(key: string, value: any) {
-  localStorage.setItem(key, JSON.stringify(value));
+function save(value: any) {
+  localStorage.setItem(repoDataKey, JSON.stringify(value));
 }

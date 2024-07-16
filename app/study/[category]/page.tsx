@@ -30,14 +30,14 @@ export default function StudyCategory() {
 
   function review(feedback: Feedback) {
     flashCard.review(feedback);
-    update(cardIndex, flashCard);
+    update(flashCard);
     show && setShow(false);
     move();
   }
 
   useEffect(() => {
     function getDueFlashCards() {
-      const data = getAll("data");
+      const data = getAll();
       const dueFlashCards: FlashCard[] = data[category as string]
         .map((localStorageObj: any) =>
           FlashCard.fromLocalStorageObj(localStorageObj),

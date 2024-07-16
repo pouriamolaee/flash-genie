@@ -1,11 +1,13 @@
 import withPWAInit from "@ducanh2912/next-pwa";
 
+const isDevEnv = process.env.NODE_ENV === "development"
+
 const withPWA = withPWAInit({
     dest: "public",
-    disable: process.env.NODE_ENV === "development",
-    cacheOnFrontEndNav: true,
-    aggressiveFrontEndNavCaching: true,
-    cacheStartUrl: true,
+    disable: isDevEnv,
+    cacheOnFrontEndNav: !isDevEnv,
+    aggressiveFrontEndNavCaching: !isDevEnv,
+    cacheStartUrl: !isDevEnv,
     fallbacks: {
         document: "/offline"
     },

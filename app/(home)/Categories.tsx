@@ -4,31 +4,37 @@ import Button from "@/lib/kit/Button";
 import { getAll } from "@/lib/repository";
 import { useRouter } from "next/navigation";
 import { routesMapper } from "@/lib/constants/routes-mapper";
+import FlashCard from "@/lib/models/FlashCard";
+import { RepoData } from "@/lib/models/RepoData";
 
 export default function Categories() {
   const { push } = useRouter();
-  const [categories, setCategories] = useState<string[]>([]);
-
-  function getCategories() {
-    const data = getAll("data");
-    setCategories(Object.keys(data));
-  }
+  const [data, setData] = useState<RepoData>();
 
   function study(category: string) {
     push(routesMapper.study(category));
   }
 
   useEffect(() => {
-    getCategories();
+    setData(getAll());
   }, []);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <div className="flex gap-4 flex-wrap">
-      {categories.map((category, index) => (
+      {Object.entries(data).map(([category, flashCards], index) => (
         <Button
           key={category}
           className={getBtnClassName(index)}
           onClick={() => study(category)}
+          disabled={
+            !flashCards.some((flashCard) =>
+              FlashCard.fromLocalStorageObj(flashCard).isDue(),
+            )
+          }
         >
           {category}
         </Button>

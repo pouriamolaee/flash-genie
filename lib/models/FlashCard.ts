@@ -1,3 +1,5 @@
+import { uuid } from "uuidv4";
+
 export enum Feedback {
   Again,
   Good,
@@ -20,6 +22,7 @@ interface ReviewConfigOptions {
 }
 
 export default class FlashCard {
+  id: string;
   readonly question: string;
   readonly answer: string;
   readonly category: string;
@@ -44,11 +47,12 @@ export default class FlashCard {
       easeFactor = 2.5,
     }: Partial<ReviewConfigOptions> = {},
   ) {
+    this.id = uuid();
     this.question = question;
     this.answer = answer;
     this.category = category;
     this.repetitions = 0;
-    this.interval = 0;
+    this.interval = 1;
     this.againInterval = againInterval;
     this.goodMultiplier = goodMultiplier;
     this.easyMultiplier = easyMultiplier;
@@ -104,6 +108,7 @@ export default class FlashCard {
         easeFactor: obj.easeFactor,
       },
     );
+    flashCard.id = obj.id;
     flashCard.repetitions = obj.repetitions;
     flashCard.interval = obj.interval;
     flashCard.reviewDate = new Date(obj.reviewDate);

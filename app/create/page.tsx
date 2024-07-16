@@ -46,7 +46,7 @@ export default function CreateFlashCardPage() {
   }
 
   function getCategories() {
-    const data = getAll("data");
+    const data = getAll();
     setCategories(Object.keys(data));
   }
 
