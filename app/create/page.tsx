@@ -5,12 +5,12 @@ import TextInput from "@/lib/kit/TextInput";
 import { handleStream } from "@/app/create/utils";
 import Button from "@/lib/kit/Button";
 import Loading from "@/lib/kit/Loading";
-import { IconSearch } from "@tabler/icons-react";
 import TextArea from "@/lib/kit/TextArea";
 import FlashCard from "@/lib/models/FlashCard";
 import { create, getAll } from "@/lib/repository";
 import { useRouter } from "next/navigation";
 import Autocomplete from "@/lib/kit/Autocomplete";
+import { IconWand } from "@tabler/icons-react";
 
 export default function CreateFlashCardPage() {
   const questionRef = useRef<HTMLInputElement>(null);
@@ -60,13 +60,13 @@ export default function CreateFlashCardPage() {
         <TextInput
           ref={questionRef}
           className="join-item max-w-full"
-          placeholder="Answer for..."
+          placeholder="Type a term to learn..."
         />
         <Button className="join-item" onClick={handleSearch}>
           {isLoading ? (
             <Loading className="loading-ring loading-md" />
           ) : (
-            <IconSearch />
+            <IconWand />
           )}
         </Button>
       </div>
